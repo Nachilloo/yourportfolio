@@ -69,6 +69,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 html {
 	line-height: 1.15;
 	-webkit-text-size-adjust: 100%;
+	background-color: #1f1e1e;
 }
 
 /* Sections
@@ -79,6 +80,7 @@ html {
  */
 body {
 	margin: 0;
+	
 }
 
 /**
