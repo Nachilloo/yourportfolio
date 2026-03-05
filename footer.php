@@ -2,30 +2,47 @@
 /**
  * The template for displaying the footer
  *
- * Contains the closing of the #content div and all content after.
- *
- * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
- *
- * @package yourportfolio
+ * @package YourPortfolio
  */
-
 ?>
 
-	<footer id="colophon" class="site-footer">
-		<div class="site-info">
-			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'yourportfolio' ) ); ?>">
-				<?php
-				/* translators: %s: CMS name, i.e. WordPress. */
-				printf( esc_html__( 'Proudly powered by %s', 'yourportfolio' ), 'WordPress' );
-				?>
-			</a>
-			<span class="sep"> | </span>
-				<?php
-				/* translators: 1: Theme name, 2: Theme author. */
-				printf( esc_html__( 'Theme: %1$s by %2$s.', 'yourportfolio' ), 'yourportfolio', '<a href="http://galantemilicua.com">Ignacio Galante Milicua</a>' );
-				?>
-		</div><!-- .site-info -->
-	</footer><!-- #colophon -->
+    </div><!-- #content -->
+    
+    <footer id="colophon" class="site-footer">
+        <div class="footer-container">
+            
+            <?php if (is_active_sidebar('footer-1') || is_active_sidebar('footer-2') || is_active_sidebar('footer-3')) : ?>
+                <div class="footer-widgets">
+                    
+                    <?php if (is_active_sidebar('footer-1')) : ?>
+                        <div class="footer-widget footer-widget-1">
+                            <?php dynamic_sidebar('footer-1'); ?>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <?php if (is_active_sidebar('footer-2')) : ?>
+                        <div class="footer-widget footer-widget-2">
+                            <?php dynamic_sidebar('footer-2'); ?>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <?php if (is_active_sidebar('footer-3')) : ?>
+                        <div class="footer-widget footer-widget-3">
+                            <?php dynamic_sidebar('footer-3'); ?>
+                        </div>
+                    <?php endif; ?>
+                    
+                </div>
+            <?php endif; ?>
+            
+            <div class="footer-bottom">
+                <p>&copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?>. Todos los derechos reservados.</p>
+                <p>Diseñado por <a href="<?php echo esc_url(home_url('/')); ?>">Ignacio Galante Milicua</a></p>
+            </div>
+            
+        </div>
+    </footer>
+    
 </div><!-- #page -->
 
 <?php wp_footer(); ?>

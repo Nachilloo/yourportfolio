@@ -36,10 +36,10 @@
             <nav id="site-navigation" class="main-navigation">
                 <?php
                 wp_nav_menu(array(
-                    'theme_location' => 'menu-principal',
+                    'theme_location' => 'menu-1',  // CAMBIADO A menu-1
                     'menu_id'        => 'primary-menu',
                     'container'      => false,
-                    'fallback_cb'    => false, // Si no hay menú, no muestra nada
+                    'fallback_cb'    => false,
                 ));
                 ?>
             </nav>
