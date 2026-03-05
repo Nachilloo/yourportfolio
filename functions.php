@@ -198,3 +198,44 @@ function yourportfolio_cursor_scripts() {
     }, 10, 3);
 }
 add_action('wp_enqueue_scripts', 'yourportfolio_cursor_scripts');
+
+/**
+ * Crear página de opciones del tema con ACF
+ */
+if (function_exists('acf_add_options_page')) {
+    acf_add_options_page(array(
+        'page_title'     => 'Configuración del Tema',
+        'menu_title'     => 'Theme Config',
+        'menu_slug'      => 'theme-general-settings',
+        'capability'     => 'edit_posts',
+        'redirect'       => false,
+        'position'       => 2, // Justo después del Escritorio
+        'icon_url'       => 'dashicons-admin-customizer', // Icono
+    ));
+    
+    // Subpáginas para organizar
+    acf_add_options_sub_page(array(
+        'page_title'     => 'Configuración Home',
+        'menu_title'     => 'Home',
+        'parent_slug'    => 'theme-general-settings',
+    ));
+    
+    acf_add_options_sub_page(array(
+        'page_title'     => 'Configuración CV',
+        'menu_title'     => 'CV',
+        'parent_slug'    => 'theme-general-settings',
+    ));
+    
+    acf_add_options_sub_page(array(
+        'page_title'     => 'Configuración Contacto',
+        'menu_title'     => 'Contacto',
+        'parent_slug'    => 'theme-general-settings',
+    ));
+    
+    acf_add_options_sub_page(array(
+        'page_title'     => 'Redes Sociales',
+        'menu_title'     => 'Redes Sociales',
+        'parent_slug'    => 'theme-general-settings',
+    ));
+}
+

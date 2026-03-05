@@ -51,6 +51,9 @@ get_header();
                             <?php if (has_post_thumbnail()) : ?>
                                 <a href="<?php the_permalink(); ?>" class="proyecto-thumbnail">
                                     <?php the_post_thumbnail('medium'); ?>
+                                    <div class="proyecto-overlay">
+                                        <span class="proyecto-overlay-titulo"><?php the_title(); ?></span>
+                                    </div>
                                 </a>
                             <?php endif; ?>
                             
