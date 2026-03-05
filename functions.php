@@ -176,3 +176,25 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
+/**
+ * Encola scripts para el efecto de cursor 3D
+ */
+function yourportfolio_cursor_scripts() {
+    // Nuestro script principal (que hará el import dinámico)
+    wp_enqueue_script(
+        'yourportfolio-cursor-init',
+        get_template_directory_uri() . '/assets/js/cursor-init.js',
+        array(),
+        '1.0.0',
+        true
+    );
+
+    // AÑADE ESTO: Decimos que nuestro script es un módulo
+    add_filter('script_loader_tag', function($tag, $handle, $src) {
+        if ('yourportfolio-cursor-init' === $handle) {
+            $tag = '<script type="module" src="' . esc_url($src) . '"></script>';
+        }
+        return $tag;
+    }, 10, 3);
+}
+add_action('wp_enqueue_scripts', 'yourportfolio_cursor_scripts');
