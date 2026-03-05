@@ -239,3 +239,47 @@ if (function_exists('acf_add_options_page')) {
     ));
 }
 
+
+/**
+ * Procesar formulario de contacto
+ */
+function handle_contact_form() {
+    if (!isset($_POST['contact_nonce']) || !wp_verify_nonce($_POST['contact_nonce'], 'send_contact_form_nonce')) {
+        wp_die('Error de seguridad');
+    }
+    
+    $name = sanitize_text_field($_POST['name']);
+    $email = sanitize_email($_POST['email']);
+    $phone = sanitize_text_field($_POST['phone']);
+    $subject = sanitize_text_field($_POST['subject']);
+    $message = sanitize_textarea_field($_POST['message']);
+    
+    $to = get_field('contact_form_email', 'option') ?: get_option('admin_email');
+    $headers = array(
+        'Content-Type: text/html; charset=UTF-8',
+        'From: ' . $name . ' <' . $email . '>',
+        'Reply-To: ' . $email
+    );
+    
+    $email_subject = 'Contacto web: ' . $subject;
+    $email_body = "
+        <h2>Mensaje de contacto</h2>
+        <p><strong>Nombre:</strong> $name</p>
+        <p><strong>Email:</strong> $email</p>
+        <p><strong>Teléfono:</strong> $phone</p>
+        <p><strong>Asunto:</strong> $subject</p>
+        <p><strong>Mensaje:</strong></p>
+        <p>$message</p>
+    ";
+    
+    $sent = wp_mail($to, $email_subject, $email_body, $headers);
+    
+    if ($sent) {
+        wp_redirect(add_query_arg('status', 'success', wp_get_referer()));
+    } else {
+        wp_redirect(add_query_arg('status', 'error', wp_get_referer()));
+    }
+    exit;
+}
+add_action('admin_post_nopriv_send_contact_form', 'handle_contact_form');
+add_action('admin_post_send_contact_form', 'handle_contact_form');
