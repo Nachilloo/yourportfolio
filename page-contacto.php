@@ -113,6 +113,8 @@ $social_links = get_field('social_links', 'option');
                     
                 </div>
 
+                
+
                 <!-- COLUMNA DERECHA - INFORMACIÓN -->
                 <div class="contact-info-column">
                     
@@ -185,19 +187,7 @@ $social_links = get_field('social_links', 'option');
                         </div>
                     </div>
 
-                    <!-- REDES SOCIALES -->
-                    <?php if ($contact_show_social && $social_links) : ?>
-                        <div class="contact-social-card">
-                            <h3 class="info-card-title">Sígueme en redes</h3>
-                            <div class="contact-social-links">
-                                <?php foreach ($social_links as $social) : ?>
-                                    <a href="<?php echo esc_url($social['social_url']); ?>" class="contact-social-link" target="_blank">
-                                        <?php echo $social['social_network']; ?>
-                                    </a>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-                    <?php endif; ?>
+
 
                     <!-- MAPA -->
                     <?php if ($contact_map_location) : ?>

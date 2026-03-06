@@ -54,6 +54,12 @@ $cv_social = get_field('cv_social', 'option');
                             <span class="cv-contact-item">🌐 <a href="<?php echo esc_url($cv_website); ?>" target="_blank"><?php echo preg_replace('#^https?://#', '', $cv_website); ?></a></span>
                         <?php endif; ?>
                     </div>
+
+                    <?php if (function_exists('yourportfolio_social_links')) : ?>
+                     <div class="cv-social-section">
+                     <?php yourportfolio_social_links('cv', array('class' => 'cv-social')); ?>
+                     </div>
+                    <?php endif; ?>
                     
                     <?php if ($cv_social) : ?>
                         <div class="cv-social-links">

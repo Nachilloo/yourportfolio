@@ -220,16 +220,16 @@ get_header();
                             </ul>
                         </div>
                         
-                        <!-- COMPARTIR PROYECTO -->
-                        <div class="sidebar-widget">
-                            <h4><?php _e('Compartir', 'yourportfolio'); ?></h4>
-                            <div class="share-links">
-                                <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(get_permalink()); ?>" target="_blank" class="share-link facebook">FB</a>
-                                <a href="https://twitter.com/intent/tweet?url=<?php echo urlencode(get_permalink()); ?>&text=<?php echo urlencode(get_the_title()); ?>" target="_blank" class="share-link twitter">TW</a>
-                                <a href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo urlencode(get_permalink()); ?>" target="_blank" class="share-link linkedin">IN</a>
-                                <a href="https://pinterest.com/pin/create/button/?url=<?php echo urlencode(get_permalink()); ?>&media=<?php echo urlencode(get_the_post_thumbnail_url(get_the_ID(), 'large')); ?>" target="_blank" class="share-link pinterest">PT</a>
+                        <!-- REDES SOCIALES -->
+                        <?php if (function_exists('yourportfolio_social_links')) : ?>
+                            <div class="sidebar-widget sidebar-widget--social">
+                                <h4><?php _e('Sígueme', 'yourportfolio'); ?></h4>
+                                <?php yourportfolio_social_links('footer'); ?>
                             </div>
-                        </div>
+                        <?php endif; ?>
+
+                        <!-- COMPARTIR PROYECTO -->
+ 
                         
                     </div>
                     

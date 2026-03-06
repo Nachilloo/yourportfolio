@@ -1,39 +1,54 @@
 === yourportfolio ===
-
-Contributors: automattic
-Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-comments, translation-ready
-
-Requires at least: 4.5
-Tested up to: 5.4
-Requires PHP: 5.6
+Contributors: ignacio
+Donate link: https://galantemilicua.com
+Tags: portfolio, dark-theme, responsive, acf-pro, minimal
+Requires at least: 6.0
+Tested up to: 6.4
+Requires PHP: 7.4
 Stable tag: 1.0.0
-License: GNU General Public License v2 or later
-License URI: LICENSE
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A starter theme called yourportfolio.
+Tema portfolio personal con efecto 3D y configuración completa desde el admin.
 
 == Description ==
 
-personal portfonio
+yourportfolio es un tema moderno y elegante diseñado especialmente para creativos, diseñadores y desarrolladores que quieren mostrar su trabajo de forma profesional.
+
+Características principales:
+
+*   **Diseño oscuro con efecto 3D**: Fondo con tubos de neón animados que siguen el cursor
+*   **Glassmorphism**: Efecto cristal en todas las secciones para máxima legibilidad
+*   **Configuración centralizada**: Todo el contenido se gestiona desde "Theme Config" en el admin
+*   **Páginas automáticas**: Home, Portfolio, CV y Contacto se crean al activar el tema
+*   **Menú automático**: El menú principal se genera con las páginas creadas
+*   **Redes sociales configurables**: Iconos Font Awesome con estilos personalizables
+*   **Totalmente responsive**: Se ve perfecto en todos los dispositivos
+*   **Portfolio personalizado**: Custom Post Type "project" con campos avanzados
 
 == Installation ==
 
-1. In your admin panel, go to Appearance > Themes and click the Add New button.
-2. Click Upload Theme and Choose File, then select the theme's .zip file. Click Install Now.
-3. Click Activate to use your new theme right away.
+1. **Requisito**: Necesitas Advanced Custom Fields Pro (incluido en /plugins/ o comprarlo en advancedcustomfields.com/pro)
+2. Sube la carpeta 'yourportfolio' a /wp-content/themes/
+3. Activa el tema desde Apariencia → Temas
+4. Las páginas (Home, Portfolio, CV, Contacto) y el menú se crearán automáticamente
+5. Ve a "Theme Config" en el menú lateral para personalizar todo el contenido
 
 == Frequently Asked Questions ==
 
-= Does this theme support any plugins? =
+= ¿Necesito ACF Pro? =
 
-yourportfolio includes support for WooCommerce and for Infinite Scroll in Jetpack.
+Sí, este tema requiere Advanced Custom Fields Pro versión 6.0 o superior.
+
+= ¿Las páginas se crean solas? =
+
+Sí, al activar el tema se crean automáticamente las páginas Home, Portfolio, CV y Contacto, y se configura el menú principal.
+
+= ¿Puedo cambiar los colores? =
+
+Sí, desde "Theme Config → Redes Sociales" puedes personalizar los colores de los iconos y su estilo.
 
 == Changelog ==
 
-= 1.0 - May 12 2015 =
-* Initial release
-
-== Credits ==
-
-* Based on Underscores https://underscores.me/, (C) 2012-2020 Automattic, Inc., [GPLv2 or later](https://www.gnu.org/licenses/gpl-2.0.html)
-* normalize.css https://necolas.github.io/normalize.css/, (C) 2012-2018 Nicolas Gallagher and Jonathan Neal, [MIT](https://opensource.org/licenses/MIT)
+= 1.0.0 =
+* Lanzamiento inicial

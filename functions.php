@@ -2,185 +2,138 @@
 /**
  * yourportfolio functions and definitions
  *
- * @link https://developer.wordpress.org/themes/basics/theme-functions/
- *
  * @package yourportfolio
  */
 
-if ( ! defined( '_S_VERSION' ) ) {
-	// Replace the version number of the theme on each release.
-	define( '_S_VERSION', '1.0.0' );
+if (!defined('_S_VERSION')) {
+    define('_S_VERSION', '1.0.0');
 }
 
 /**
- * Sets up theme defaults and registers support for various WordPress features.
- *
- * Note that this function is hooked into the after_setup_theme hook, which
- * runs before the init hook. The init hook is too late for some features, such
- * as indicating support for post thumbnails.
+ * 1. VERIFICACIÓN DE DEPENDENCIAS
+ * Comprueba que ACF Pro está instalado y activado
+ */
+function yourportfolio_check_dependencies() {
+    // Si ACF Pro no está activo, mostrar aviso
+    if (!class_exists('ACF')) {
+        add_action('admin_notices', function() {
+            ?>
+            <div class="notice notice-warning is-dismissible">
+                <p><strong>⚠️ Tu tema yourportfolio necesita Advanced Custom Fields Pro para funcionar correctamente.</strong></p>
+                <p>Por favor, instala y activa <a href="https://www.advancedcustomfields.com/pro/" target="_blank">ACF Pro</a> (versión 6.0 o superior).</p>
+            </div>
+            <?php
+        });
+    }
+    
+    // Verificar que es ACF Pro, no la versión gratuita
+    if (class_exists('ACF') && !defined('ACF_PRO')) {
+        add_action('admin_notices', function() {
+            ?>
+            <div class="notice notice-error">
+                <p><strong>❌ Versión incorrecta de ACF detectada.</strong></p>
+                <p>Tu tema requiere <strong>ACF Pro</strong>. La versión gratuita no es compatible.</p>
+            </div>
+            <?php
+        });
+    }
+}
+add_action('after_setup_theme', 'yourportfolio_check_dependencies');
+
+/**
+ * 2. CONFIGURACIÓN INICIAL DEL TEMA
  */
 function yourportfolio_setup() {
-	/*
-		* Make theme available for translation.
-		* Translations can be filed in the /languages/ directory.
-		* If you're building a theme based on yourportfolio, use a find and replace
-		* to change 'yourportfolio' to the name of your theme in all the template files.
-		*/
-	load_theme_textdomain( 'yourportfolio', get_template_directory() . '/languages' );
-
-	// Add default posts and comments RSS feed links to head.
-	add_theme_support( 'automatic-feed-links' );
-
-	/*
-		* Let WordPress manage the document title.
-		* By adding theme support, we declare that this theme does not use a
-		* hard-coded <title> tag in the document head, and expect WordPress to
-		* provide it for us.
-		*/
-	add_theme_support( 'title-tag' );
-
-	/*
-		* Enable support for Post Thumbnails on posts and pages.
-		*
-		* @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
-		*/
-	add_theme_support( 'post-thumbnails' );
-
-	// This theme uses wp_nav_menu() in one location.
-	register_nav_menus(
-		array(
-			'menu-principal' => esc_html__( 'Menú Principal', 'yourportfolio' ),
-		)
-	);
-
-	/*
-		* Switch default core markup for search form, comment form, and comments
-		* to output valid HTML5.
-		*/
-	add_theme_support(
-		'html5',
-		array(
-			'search-form',
-			'comment-form',
-			'comment-list',
-			'gallery',
-			'caption',
-			'style',
-			'script',
-		)
-	);
-
-	// Set up the WordPress core custom background feature.
-	add_theme_support(
-		'custom-background',
-		apply_filters(
-			'yourportfolio_custom_background_args',
-			array(
-				'default-color' => 'ffffff',
-				'default-image' => '',
-			)
-		)
-	);
-
-	// Add theme support for selective refresh for widgets.
-	add_theme_support( 'customize-selective-refresh-widgets' );
-
-	/**
-	 * Add support for core custom logo.
-	 *
-	 * @link https://codex.wordpress.org/Theme_Logo
-	 */
-	add_theme_support(
-		'custom-logo',
-		array(
-			'height'      => 250,
-			'width'       => 250,
-			'flex-width'  => true,
-			'flex-height' => true,
-		)
-	);
+    load_theme_textdomain('yourportfolio', get_template_directory() . '/languages');
+    add_theme_support('automatic-feed-links');
+    add_theme_support('title-tag');
+    add_theme_support('post-thumbnails');
+    
+    // Registrar menús
+    register_nav_menus(array(
+        'menu-principal' => esc_html__('Menú Principal', 'yourportfolio'),
+        'menu-footer'    => esc_html__('Menú Footer', 'yourportfolio'),
+    ));
+    
+    add_theme_support('html5', array(
+        'search-form', 'comment-form', 'comment-list', 'gallery', 'caption',
+    ));
+    
+    add_theme_support('custom-logo', array(
+        'height'      => 250,
+        'width'       => 250,
+        'flex-width'  => true,
+        'flex-height' => true,
+    ));
 }
-add_action( 'after_setup_theme', 'yourportfolio_setup' );
+add_action('after_setup_theme', 'yourportfolio_setup');
 
 /**
- * Set the content width in pixels, based on the theme's design and stylesheet.
- *
- * Priority 0 to make it available to lower priority callbacks.
- *
- * @global int $content_width
+ * 3. ANCHO DE CONTENIDO
  */
 function yourportfolio_content_width() {
-	$GLOBALS['content_width'] = apply_filters( 'yourportfolio_content_width', 640 );
+    $GLOBALS['content_width'] = apply_filters('yourportfolio_content_width', 640);
 }
-add_action( 'after_setup_theme', 'yourportfolio_content_width', 0 );
+add_action('after_setup_theme', 'yourportfolio_content_width', 0);
 
 /**
- * Register widget area.
- *
- * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
+ * 4. WIDGETS
  */
 function yourportfolio_widgets_init() {
-	register_sidebar(
-		array(
-			'name'          => esc_html__( 'Sidebar', 'yourportfolio' ),
-			'id'            => 'sidebar-1',
-			'description'   => esc_html__( 'Add widgets here.', 'yourportfolio' ),
-			'before_widget' => '<section id="%1$s" class="widget %2$s">',
-			'after_widget'  => '</section>',
-			'before_title'  => '<h2 class="widget-title">',
-			'after_title'   => '</h2>',
-		)
-	);
+    register_sidebar(array(
+        'name'          => esc_html__('Sidebar', 'yourportfolio'),
+        'id'            => 'sidebar-1',
+        'description'   => esc_html__('Add widgets here.', 'yourportfolio'),
+        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h2 class="widget-title">',
+        'after_title'   => '</h2>',
+    ));
+    
+    // Footers
+    for ($i = 1; $i <= 3; $i++) {
+        register_sidebar(array(
+            'name'          => sprintf(esc_html__('Footer %d', 'yourportfolio'), $i),
+            'id'            => 'footer-' . $i,
+            'description'   => sprintf(esc_html__('Añade widgets para la columna %d del footer', 'yourportfolio'), $i),
+            'before_widget' => '<div id="%1$s" class="widget %2$s">',
+            'after_widget'  => '</div>',
+            'before_title'  => '<h3 class="widget-title">',
+            'after_title'   => '</h3>',
+        ));
+    }
 }
-add_action( 'widgets_init', 'yourportfolio_widgets_init' );
+add_action('widgets_init', 'yourportfolio_widgets_init');
 
 /**
- * Enqueue scripts and styles.
+ * 5. SCRIPTS Y ESTILOS
  */
 function yourportfolio_scripts() {
-	wp_enqueue_style( 'yourportfolio-style', get_stylesheet_uri(), array(), _S_VERSION );
-	wp_style_add_data( 'yourportfolio-style', 'rtl', 'replace' );
-
-	wp_enqueue_script( 'yourportfolio-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
-
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
-		wp_enqueue_script( 'comment-reply' );
-	}
+    wp_enqueue_style('yourportfolio-style', get_stylesheet_uri(), array(), _S_VERSION);
+    wp_enqueue_script('yourportfolio-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true);
+    
+    if (is_singular() && comments_open() && get_option('thread_comments')) {
+        wp_enqueue_script('comment-reply');
+    }
 }
-add_action( 'wp_enqueue_scripts', 'yourportfolio_scripts' );
+add_action('wp_enqueue_scripts', 'yourportfolio_scripts');
 
 /**
- * Implement the Custom Header feature.
+ * 6. CARGA DE ARCHIVOS ADICIONALES
  */
 require get_template_directory() . '/inc/custom-header.php';
-
-/**
- * Custom template tags for this theme.
- */
 require get_template_directory() . '/inc/template-tags.php';
-
-/**
- * Functions which enhance the theme by hooking into WordPress.
- */
 require get_template_directory() . '/inc/template-functions.php';
-
-/**
- * Customizer additions.
- */
 require get_template_directory() . '/inc/customizer.php';
 
-/**
- * Load Jetpack compatibility file.
- */
-if ( defined( 'JETPACK__VERSION' ) ) {
-	require get_template_directory() . '/inc/jetpack.php';
+if (defined('JETPACK__VERSION')) {
+    require get_template_directory() . '/inc/jetpack.php';
 }
 
 /**
- * Encola scripts para el efecto de cursor 3D
+ * 7. EFECTO CURSOR 3D
  */
 function yourportfolio_cursor_scripts() {
-    // Nuestro script principal (que hará el import dinámico)
     wp_enqueue_script(
         'yourportfolio-cursor-init',
         get_template_directory_uri() . '/assets/js/cursor-init.js',
@@ -189,7 +142,6 @@ function yourportfolio_cursor_scripts() {
         true
     );
 
-    // AÑADE ESTO: Decimos que nuestro script es un módulo
     add_filter('script_loader_tag', function($tag, $handle, $src) {
         if ('yourportfolio-cursor-init' === $handle) {
             $tag = '<script type="module" src="' . esc_url($src) . '"></script>';
@@ -200,48 +152,185 @@ function yourportfolio_cursor_scripts() {
 add_action('wp_enqueue_scripts', 'yourportfolio_cursor_scripts');
 
 /**
- * Crear página de opciones del tema con ACF
+ * 8. PÁGINAS DE OPCIONES DE ACF
  */
 if (function_exists('acf_add_options_page')) {
+    // Home
     acf_add_options_page(array(
-        'page_title'     => 'Configuración del Tema',
-        'menu_title'     => 'Theme Config',
-        'menu_slug'      => 'theme-general-settings',
-        'capability'     => 'edit_posts',
-        'redirect'       => false,
-        'position'       => 2, // Justo después del Escritorio
-        'icon_url'       => 'dashicons-admin-customizer', // Icono
-    ));
-    
-    // Subpáginas para organizar
-    acf_add_options_sub_page(array(
-        'page_title'     => 'Configuración Home',
+        'page_title'     => 'Configuración de Home',
         'menu_title'     => 'Home',
-        'parent_slug'    => 'theme-general-settings',
+        'menu_slug'      => 'theme-home-settings',
+        'capability'     => 'edit_posts',
+        'position'       => 3,
+        'icon_url'       => 'dashicons-admin-home',
+        'redirect'       => false,
     ));
     
-    acf_add_options_sub_page(array(
-        'page_title'     => 'Configuración CV',
+    // CV
+    acf_add_options_page(array(
+        'page_title'     => 'Configuración de CV',
         'menu_title'     => 'CV',
-        'parent_slug'    => 'theme-general-settings',
+        'menu_slug'      => 'theme-cv-settings',
+        'capability'     => 'edit_posts',
+        'position'       => 4,
+        'icon_url'       => 'dashicons-id',
+        'redirect'       => false,
     ));
     
-    acf_add_options_sub_page(array(
-        'page_title'     => 'Configuración Contacto',
+    // Contacto
+    acf_add_options_page(array(
+        'page_title'     => 'Configuración de Contacto',
         'menu_title'     => 'Contacto',
-        'parent_slug'    => 'theme-general-settings',
+        'menu_slug'      => 'theme-contact-settings',
+        'capability'     => 'edit_posts',
+        'position'       => 5,
+        'icon_url'       => 'dashicons-email',
+        'redirect'       => false,
     ));
     
-    acf_add_options_sub_page(array(
-        'page_title'     => 'Redes Sociales',
+    // Redes Sociales
+    acf_add_options_page(array(
+        'page_title'     => 'Configuración de Redes Sociales',
         'menu_title'     => 'Redes Sociales',
-        'parent_slug'    => 'theme-general-settings',
+        'menu_slug'      => 'theme-social-settings',
+        'capability'     => 'edit_posts',
+        'position'       => 6,
+        'icon_url'       => 'dashicons-share',
+        'redirect'       => false,
     ));
 }
 
+/**
+ * 9. CREACIÓN AUTOMÁTICA DE PÁGINAS Y MENÚ AL ACTIVAR EL TEMA
+ * Esta función se ejecuta UNA SOLA VEZ cuando se activa el tema
+ */
+function yourportfolio_create_default_pages() {
+    
+    // Evitar ejecución múltiple
+    if (get_option('yourportfolio_initial_setup_done')) {
+        return;
+    }
+    
+    // Array con las páginas a crear
+    $default_pages = array(
+        array(
+            'title'    => 'Home',
+            'slug'     => 'home',
+            'content'  => 'Bienvenido a mi portfolio. Esta página usa la plantilla front-page.php',
+            'template' => 'front-page.php',
+            'order'    => 1
+        ),
+        array(
+            'title'    => 'Portfolio',
+            'slug'     => 'portfolio',
+            'content'  => 'Aquí puedes ver todos mis proyectos.',
+            'template' => 'page-portfolio.php',
+            'order'    => 2
+        ),
+        array(
+            'title'    => 'CV',
+            'slug'     => 'cv',
+            'content'  => 'Currículum vitae profesional.',
+            'template' => 'page-cv.php',
+            'order'    => 3
+        ),
+        array(
+            'title'    => 'Contacto',
+            'slug'     => 'contacto',
+            'content'  => 'Ponte en contacto conmigo.',
+            'template' => 'page-contacto.php',
+            'order'    => 4
+        ),
+    );
+
+    $created_pages = array();
+
+    // Crear cada página
+    foreach ($default_pages as $page) {
+        $existing_page = get_page_by_path($page['slug']);
+        
+        if (!$existing_page) {
+            $page_id = wp_insert_post(array(
+                'post_title'    => $page['title'],
+                'post_name'     => $page['slug'],
+                'post_content'  => $page['content'],
+                'post_status'   => 'publish',
+                'post_type'     => 'page',
+                'post_author'   => 1,
+                'menu_order'    => $page['order'],
+                'comment_status' => 'closed',
+                'ping_status'    => 'closed',
+            ));
+            
+            if ($page_id && !is_wp_error($page_id)) {
+                // Asignar plantilla
+                if (!empty($page['template'])) {
+                    update_post_meta($page_id, '_wp_page_template', $page['template']);
+                }
+                $created_pages[$page['slug']] = $page_id;
+            }
+        } else {
+            $created_pages[$page['slug']] = $existing_page->ID;
+        }
+    }
+
+    // Configurar Home como página de inicio
+    if (isset($created_pages['home'])) {
+        update_option('page_on_front', $created_pages['home']);
+        update_option('show_on_front', 'page');
+    }
+
+    // Configurar Portfolio como página de entradas (si aplica)
+    if (isset($created_pages['portfolio'])) {
+        update_option('page_for_posts', $created_pages['portfolio']);
+    }
+
+    /**
+     * CREAR MENÚ PRINCIPAL AUTOMÁTICAMENTE
+     */
+    
+    // 1. Verificar si ya existe un menú llamado "Menú Principal" [citation:8]
+    $menu_exists = wp_get_nav_menu_object('Menú Principal');
+    
+    if (!$menu_exists) {
+        // 2. Crear el menú
+        $menu_id = wp_create_nav_menu('Menú Principal');
+        
+        if (!is_wp_error($menu_id)) {
+            // 3. Añadir items al menú en el orden correcto
+            $menu_items = array(
+                'home'      => 'Inicio',
+                'portfolio' => 'Portfolio',
+                'cv'        => 'CV',
+                'contacto'  => 'Contacto',
+            );
+            
+            foreach ($menu_items as $slug => $title) {
+                if (isset($created_pages[$slug])) {
+                    wp_update_nav_menu_item($menu_id, 0, array(
+                        'menu-item-title'     => $title,
+                        'menu-item-object'    => 'page',
+                        'menu-item-object-id' => $created_pages[$slug],
+                        'menu-item-type'      => 'post_type',
+                        'menu-item-status'    => 'publish',
+                    ));
+                }
+            }
+            
+            // 4. Asignar el menú a la ubicación 'menu-principal' [citation:8]
+            $locations = get_theme_mod('nav_menu_locations');
+            $locations['menu-principal'] = $menu_id;
+            set_theme_mod('nav_menu_locations', $locations);
+        }
+    }
+
+    // Marcar como completado
+    add_option('yourportfolio_initial_setup_done', true);
+}
+add_action('after_switch_theme', 'yourportfolio_create_default_pages');
 
 /**
- * Procesar formulario de contacto
+ * 10. PROCESAR FORMULARIO DE CONTACTO
  */
 function handle_contact_form() {
     if (!isset($_POST['contact_nonce']) || !wp_verify_nonce($_POST['contact_nonce'], 'send_contact_form_nonce')) {
@@ -283,3 +372,26 @@ function handle_contact_form() {
 }
 add_action('admin_post_nopriv_send_contact_form', 'handle_contact_form');
 add_action('admin_post_send_contact_form', 'handle_contact_form');
+
+/**
+ * 11. FUNCIONES DE REDES SOCIALES
+ */
+require get_template_directory() . '/inc/social-functions.php';
+
+/**
+ * 12. CARGAR FONT AWESOME
+ */
+function yourportfolio_load_fontawesome() {
+    wp_enqueue_style('fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css', array(), '6.5.1');
+}
+add_action('wp_enqueue_scripts', 'yourportfolio_load_fontawesome');
+
+/**
+ * 13. LIMPIAR OPCIONES AL DESACTIVAR (opcional)
+ * Útil para desarrollo, pero quizás no quieras esto en producción
+ */
+function yourportfolio_theme_deactivation() {
+    // No borramos las páginas, solo la marca de setup
+    delete_option('yourportfolio_initial_setup_done');
+}
+add_action('switch_theme', 'yourportfolio_theme_deactivation');

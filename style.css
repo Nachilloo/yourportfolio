@@ -498,7 +498,7 @@ section {
     z-index: 10;
     background-color: transparent;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 60px 0 20px;
+    padding: 20px 0 20px;
     margin-top: 60px;
 }
 
@@ -1451,6 +1451,10 @@ section {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.sidebar-widget--social .social-links-wrapper {
+    justify-content: flex-start;
+}
+
 .proyecto-detalles-list {
     list-style: none;
     padding: 0;
@@ -1559,13 +1563,14 @@ section {
 --------------------------------------------------------------*/
 .portfolio-page-header {
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 30px;
     padding: 40px 0;
     background: rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 20px;
 }
 
 .portfolio-page-title {
@@ -1821,6 +1826,155 @@ section {
     }
 }
 
+/*--------------------------------------------------------------
+# REDES SOCIALES - ESTILOS GLOBALES
+--------------------------------------------------------------*/
+
+/* Estilos base */
+.social-links-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 20px;
+}
+
+/* Estilo Círculos */
+.social-links-wrapper.style-circles .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+/* Estilo Cuadrados */
+.social-links-wrapper.style-squares .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+/* Estilo Rectángulos redondeados */
+.social-links-wrapper.style-rounded .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+/* Estilo Solo texto */
+.social-links-wrapper.style-text .social-link {
+    padding: 5px 10px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    background: none !important;
+}
+
+/* Estilo Texto con fondo */
+.social-links-wrapper.style-text_with_bg .social-link {
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+/* Tamaños */
+.social-links-wrapper.size-small .social-link {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+}
+
+.social-links-wrapper.size-medium .social-link {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+}
+
+.social-links-wrapper.size-large .social-link {
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
+}
+
+/* Para estilos de texto, ajustamos */
+.social-links-wrapper.style-text.size-small .social-link,
+.social-links-wrapper.style-text_with_bg.size-small .social-link {
+    width: auto;
+    height: auto;
+    padding: 4px 10px;
+}
+
+.social-links-wrapper.style-text.size-medium .social-link,
+.social-links-wrapper.style-text_with_bg.size-medium .social-link {
+    width: auto;
+    height: auto;
+    padding: 6px 14px;
+}
+
+.social-links-wrapper.style-text.size-large .social-link,
+.social-links-wrapper.style-text_with_bg.size-large .social-link {
+    width: auto;
+    height: auto;
+    padding: 8px 18px;
+}
+
+/* Hover effects */
+.social-links-wrapper .social-link {
+    transition: all 0.3s ease;
+}
+
+.social-links-wrapper .social-link:hover {
+    transform: translateY(-3px);
+}
+
+
+/*--------------------------------------------------------------
+# FONT AWESOME SOCIAL ICONS
+--------------------------------------------------------------*/
+.social-links-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-links-wrapper .social-link i {
+    font-size: inherit;
+    line-height: 1;
+}
+
+/* Efectos especiales */
+.social-links-wrapper .social-link:hover i {
+    animation: social-pulse 0.3s ease;
+}
+
+@keyframes social-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Estilo texto con iconos */
+.social-links-wrapper.style-text_with_bg .social-link i {
+    margin-right: 5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .social-links-wrapper {
+        justify-content: center;
+    }
+}
 
 /*--------------------------------------------------------------
 # RESPONSIVE GENERAL
